@@ -14,10 +14,48 @@ A minimal Python web application with a single "Update data" button, optimized f
 
 ## Prerequisites
 
-- Docker installed on your system
+- Docker and Docker Compose installed on your system
 - (Optional) Python 3.11+ for local development
 
-## Quick Start with Docker
+## Quick Start with Docker Compose (Recommended)
+
+### Start the application
+
+```bash
+# First time: copy environment template (optional, defaults work fine)
+cp .env.example .env
+
+# Start the application
+docker-compose up -d
+```
+
+### Access the application
+
+Open your browser and navigate to:
+```
+http://localhost:5000
+```
+
+### Common Docker Compose Commands
+
+```bash
+# View logs
+docker-compose logs -f
+
+# Stop the application
+docker-compose down
+
+# Restart the application
+docker-compose restart
+
+# Rebuild and restart
+docker-compose up -d --build
+
+# View container stats
+docker stats
+```
+
+## Alternative: Using Docker Directly
 
 ### Build the Docker image
 
@@ -31,37 +69,22 @@ docker build -t py-hello-app:latest .
 docker run -d -p 5000:5000 --name py-hello-container py-hello-app:latest
 ```
 
-### Access the application
+### Docker Commands
 
-Open your browser and navigate to:
-```
-http://localhost:5000
-```
-
-## Docker Commands
-
-### View logs
 ```bash
+# View logs
 docker logs py-hello-container
-```
 
-### Stop the container
-```bash
+# Stop the container
 docker stop py-hello-container
-```
 
-### Start the container
-```bash
+# Start the container
 docker start py-hello-container
-```
 
-### Remove the container
-```bash
+# Remove the container
 docker rm -f py-hello-container
-```
 
-### View container stats
-```bash
+# View container stats
 docker stats py-hello-container
 ```
 
@@ -81,6 +104,19 @@ python app.py
 
 The application will be available at `http://localhost:5000`
 
+## Deployment to Digital Ocean
+
+This application is optimized for deployment to Digital Ocean using Docker. The setup allows you to test everything locally before deploying to minimize cloud debugging.
+
+See **[DEPLOYMENT.md](DEPLOYMENT.md)** for complete Digital Ocean deployment instructions.
+
+Quick summary:
+1. Test locally with `docker-compose up`
+2. Create Ubuntu droplet on Digital Ocean
+3. Install Docker on droplet
+4. Deploy using the same docker-compose.yml
+5. Your local environment matches production exactly
+
 ## Project Structure
 
 ```
@@ -90,7 +126,10 @@ The application will be available at `http://localhost:5000`
 │   └── index.html      # Single-page application UI
 ├── requirements.txt    # Python dependencies
 ├── Dockerfile          # Docker build configuration
+├── docker-compose.yml  # Docker Compose configuration for local and production
+├── .env.example        # Example environment configuration
 ├── .dockerignore       # Files to exclude from Docker build
+├── DEPLOYMENT.md       # Digital Ocean deployment guide
 ├── LICENSE             # MIT License
 └── README.md           # This file
 ```
@@ -103,6 +142,7 @@ The application will be available at `http://localhost:5000`
 - **Health checks**: Automated container health monitoring
 - **Environment variables**: Optimized Python runtime settings
 - **.dockerignore**: Excludes unnecessary files from build context
+- **Docker Compose**: Single configuration for local and production environments
 
 ## API Endpoints
 

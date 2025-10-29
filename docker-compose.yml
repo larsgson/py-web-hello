@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: py-hello-app
+    image: py-hello-app:latest
+    ports:
+      - "${PORT:-5000}:5000"
+    environment:
+      - FLASK_APP=app.py
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/')"]
+      interval: 30s
+      timeout: 3s
+      start_period: 5s
+      retries: 3
+    # Uncomment for development with volume mount
+    # volumes:
+    #   - ./app.py:/app/app.py
+    #   - ./templates:/app/templates
